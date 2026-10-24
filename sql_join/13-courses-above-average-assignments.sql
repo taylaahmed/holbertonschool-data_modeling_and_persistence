@@ -1,12 +1,13 @@
 SELECT courses.title AS course_title
 FROM courses
-INNER JOIN registrations ON registrations.course_id = courses.id
-GROUP BY course_title
-HAVING COUNT(registrations.student_id) > (
-    SELECT AVG(enrollment_count)
+INNER JOIN assignments ON assignments.course_id = courses.id
+GROUP BY courses.id, courses.title
+HAVING COUNT(assignments.id) > (
+    SELECT AVG(number_assignments)
     FROM (
-        SELECT COUNT(*) AS enrollment_count
-        FROM registrations
-        GROUP BY course_id
+        SELECT COUNT(assignments.id) AS number_assignments
+        FROM courses
+        INNER JOIN assignments ON assignments.course_id = courses.id
+        GROUP BY courses.id
     ))
 ORDER BY course_title ASC;
