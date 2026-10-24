@@ -1,4 +1,4 @@
-SELECT books.title, authors.name AS author_name
+SELECT authors.name, books.title AS author_name
 FROM authors
 LEFT JOIN books ON
 books.author_id = authors.id
